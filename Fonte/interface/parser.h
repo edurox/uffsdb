@@ -10,10 +10,15 @@
 #define OP_DROP_DATABASE 	5
 #define OP_SELECT_ALL 		6
 
+
 /* Estrutura global que guarda as informações obtidas pelo yacc
  * na identificação dos tokens
  */
 extern rc_insert GLOBAL_DATA;
+
+/* ESTRUTURA AUXILIAR DO WHERE */
+
+extern rc_where GLOBAL_WHERE;
 
 /* Estrutura auxiliar do reconhecedor.
  */
@@ -101,3 +106,19 @@ void clearGlobalStructs();
  * dos tokens iniciais.
  */
 void setMode(char mode);
+
+/* Define o valor column where da rc_where */
+
+void setColumnWhere(char *nome, char type);
+
+/* Define o valor Value where da rc_where */
+
+void setValueWhere(char *nome, char type);
+
+/* Define o valor column where2 da rc_where */
+
+void setColumnWhere2(char *nome, char type);
+
+/* Define o valor Value where2 da rc_where */
+
+void setValueWhere2(char *nome, char type);

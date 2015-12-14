@@ -11,6 +11,15 @@
 %%
 
 (?i:INSERT)						return INSERT;
+(?i:WHERE)						return WHERE;
+(?i:AND)						return AND;
+(?i:OR)						        return OR;
+(?i:=)						        return EQUALS;
+(?i:!=)						        return NEQUALS;
+(?i:>)						        return BIGGER;
+(?i:<)						        return LESS;
+(?i:=>)						        return BEQUALS;
+(?i:=<)						        return LEQUALS;
 (?i:INTO)						return INTO;
 (?i:VALUES)						return VALUES;
 (?i:SELECT)						return SELECT;

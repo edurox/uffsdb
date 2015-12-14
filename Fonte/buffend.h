@@ -60,7 +60,28 @@ typedef struct rc_insert {
     int     *attribute;         // Utilizado na criação (NPK, PK,FK)
     char   **fkTable;           // Recebe o nome da tabela FK
     char   **fkColumn;          // Recebe o nome da coluna FK
+    int      imprimeTudo;       // Caso seja select *
+
 }rc_insert;
+
+typedef struct rc_where {
+    int     where;		// Verifica se vai ter where
+
+    char    *valueWhere;	// O valor que where recebe, no caso where idade = 50, neste caso valueWhere recebe 50
+    char    *TipoValueWhere;	// O tipo valor que where recebe, no caso where idade = 50, neste caso int
+    char    *columnWhere;	// Coluna que o where vai comparar, no exemplo anterior esse atributo recebe idade
+
+    char    *valueWhere2;	// O valor que where 2 recebe, no caso where idade = 50, neste caso valueWhere recebe 50
+    char    *TipoValueWhere2;	// O tipo valor que where 2 recebe, no caso where idade = 50, neste caso int
+    char    *columnWhere2;	// Coluna que o where 2 vai comparar, no exemplo anterior esse atributo recebe idade
+
+    int     oper;              // OPERAÇÃO do where, pode ser =  1,    >  2,   <  3,    != 4,    => 5,    =< 6
+    int     oper2;              // OPERAÇÃO do where2, pode ser =  1,    >  2,   <  3,    != 4,    => 5,    =< 6
+    int     andOr;              // SE POSSUI AND OU OR do where, se não possui ambos = 0, se possui and = 1, se possui or = 2
+
+
+
+}rc_where;
 
 typedef struct rc_parser {
     int         mode;           // Modo de operação (definido em /interface/parser.h)
@@ -304,9 +325,10 @@ column * excluirTuplaBuffer(tp_buffer *buffer, tp_table *campos, struct fs_objec
 /************************************************************************************************
 /  Natan J. Mai, Ricardo Zanuzzo e Rogério Torchelsen                                          */
 
-void imprime(char nomeTabela[] );
+void imprime(rc_insert *s_insert, int cols);
 /* ----------------------------------------------------------------------------------------------
-    Objetivo:   Utilizada para impressão de tabelas.
+    Função alterada por EDUARDO MENDES SENGER
+    Objetivo:   Funciona como auxiliar para as funções do select
     Parametros: Nome da tabela (char).
     Retorno:    void.
    ---------------------------------------------------------------------------------------------*/
@@ -520,3 +542,22 @@ double doubAbs(double n);
 /*
 * Retorna o valor absoluto de uma variável double;
 */
+
+/*------------------------------------------------------------------------------------ */
+/* ------------------------------- Eduardo Mendes Senger ----------------------------- */
+/*------------------------------------------------------------------------------------ */
+
+/* Essa função serve para receber as colunas para fazer a projeção do select*/
+
+void selecionar(rc_insert *s_insert, int cols);
+
+/* Imprime tudo (select * from ...) */
+
+void imprimeAll(char nomeTabela[]);
+
+/* Imprime tudo que estiver de acordo com a clausula where (sem projeção)*/
+
+void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]);
+
+
+

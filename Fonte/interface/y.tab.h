@@ -50,28 +50,37 @@ extern int yydebug;
     VALUES = 260,
     SELECT = 261,
     FROM = 262,
-    CREATE = 263,
-    TABLE = 264,
-    INTEGER = 265,
-    VARCHAR = 266,
-    DOUBLE = 267,
-    CHAR = 268,
-    PRIMARY = 269,
-    KEY = 270,
-    REFERENCES = 271,
-    DATABASE = 272,
-    DROP = 273,
-    OBJECT = 274,
-    NUMBER = 275,
-    VALUE = 276,
-    QUIT = 277,
-    LIST_TABLES = 278,
-    LIST_TABLE = 279,
-    ALPHANUM = 280,
-    CONNECT = 281,
-    HELP = 282,
-    LIST_DBASES = 283,
-    CLEAR = 284
+    WHERE = 263,
+    EQUALS = 264,
+    NEQUALS = 265,
+    BIGGER = 266,
+    LESS = 267,
+    BEQUALS = 268,
+    LEQUALS = 269,
+    CREATE = 270,
+    TABLE = 271,
+    INTEGER = 272,
+    VARCHAR = 273,
+    DOUBLE = 274,
+    AND = 275,
+    OR = 276,
+    CHAR = 277,
+    PRIMARY = 278,
+    KEY = 279,
+    REFERENCES = 280,
+    DATABASE = 281,
+    DROP = 282,
+    OBJECT = 283,
+    NUMBER = 284,
+    VALUE = 285,
+    QUIT = 286,
+    LIST_TABLES = 287,
+    LIST_TABLE = 288,
+    ALPHANUM = 289,
+    CONNECT = 290,
+    HELP = 291,
+    LIST_DBASES = 292,
+    CLEAR = 293
   };
 #endif
 /* Tokens.  */
@@ -80,28 +89,37 @@ extern int yydebug;
 #define VALUES 260
 #define SELECT 261
 #define FROM 262
-#define CREATE 263
-#define TABLE 264
-#define INTEGER 265
-#define VARCHAR 266
-#define DOUBLE 267
-#define CHAR 268
-#define PRIMARY 269
-#define KEY 270
-#define REFERENCES 271
-#define DATABASE 272
-#define DROP 273
-#define OBJECT 274
-#define NUMBER 275
-#define VALUE 276
-#define QUIT 277
-#define LIST_TABLES 278
-#define LIST_TABLE 279
-#define ALPHANUM 280
-#define CONNECT 281
-#define HELP 282
-#define LIST_DBASES 283
-#define CLEAR 284
+#define WHERE 263
+#define EQUALS 264
+#define NEQUALS 265
+#define BIGGER 266
+#define LESS 267
+#define BEQUALS 268
+#define LEQUALS 269
+#define CREATE 270
+#define TABLE 271
+#define INTEGER 272
+#define VARCHAR 273
+#define DOUBLE 274
+#define AND 275
+#define OR 276
+#define CHAR 277
+#define PRIMARY 278
+#define KEY 279
+#define REFERENCES 280
+#define DATABASE 281
+#define DROP 282
+#define OBJECT 283
+#define NUMBER 284
+#define VALUE 285
+#define QUIT 286
+#define LIST_TABLES 287
+#define LIST_TABLE 288
+#define ALPHANUM 289
+#define CONNECT 290
+#define HELP 291
+#define LIST_DBASES 292
+#define CLEAR 293
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -115,7 +133,7 @@ union YYSTYPE
     int subtok;
     char *strval;
 
-#line 119 "y.tab.h" /* yacc.c:1909  */
+#line 137 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

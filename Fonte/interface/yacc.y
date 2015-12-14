@@ -25,8 +25,8 @@ int yywrap() {
 
 %%
 
-%token  INSERT      INTO        VALUES      SELECT      FROM
-        CREATE      TABLE       INTEGER     VARCHAR     DOUBLE
+%token  INSERT      INTO        VALUES      SELECT      FROM    WHERE   EQUALS   NEQUALS   BIGGER   LESS   BEQUALS   LEQUALS 
+        CREATE      TABLE       INTEGER     VARCHAR     DOUBLE    AND     OR
         CHAR        PRIMARY     KEY         REFERENCES  DATABASE
         DROP        OBJECT      NUMBER      VALUE       QUIT
         LIST_TABLES LIST_TABLE  ALPHANUM    CONNECT     HELP
@@ -150,9 +150,51 @@ create_database: CREATE DATABASE {setMode(OP_CREATE_DATABASE);} OBJECT {setObjNa
 drop_database: DROP DATABASE {setMode(OP_DROP_DATABASE);} OBJECT {setObjName(yytext);} semicolon {return 0;};
 
 /* SELECT */
-select: SELECT {setMode(OP_SELECT_ALL);} '*' FROM table_select semicolon {return 0;};
+select: SELECT {setMode(OP_SELECT_ALL);} selecter FROM table_select wheres semicolon {
+	
+	
+return 0;};
+
+
+
+selecter: '*' {GLOBAL_DATA.imprimeTudo = 1;};
+	| column_list {GLOBAL_DATA.imprimeTudo = 0;};
 
 table_select: OBJECT {setObjName(yytext);};
+
+wheres:  
+	 | WHERE {GLOBAL_WHERE.where = 1;} column_where oper valueWhere andOr column_where2 oper2 valueWhere2;
+
+valueWhere: VALUE {setValueWhere(yylval.strval, 'D');}
+     | NUMBER {setValueWhere(yylval.strval, 'I');}
+     | ALPHANUM {setValueWhere(yylval.strval, 'S');};
+
+column_where: OBJECT {setColumnWhere(yylval.strval, 'S');};
+
+oper: EQUALS {GLOBAL_WHERE.oper = 1;}
+      | BIGGER {GLOBAL_WHERE.oper = 2;}
+      | LESS {GLOBAL_WHERE.oper = 3;}
+      | NEQUALS {GLOBAL_WHERE.oper = 4;}
+      | BEQUALS {GLOBAL_WHERE.oper = 5;}
+      | LEQUALS {GLOBAL_WHERE.oper = 6;};
+
+valueWhere2: |VALUE {setValueWhere2(yylval.strval, 'D');}
+     | NUMBER {setValueWhere2(yylval.strval, 'I');}
+     | ALPHANUM {setValueWhere2(yylval.strval, 'S');};
+
+column_where2: |OBJECT {setColumnWhere2(yylval.strval, 'S');};
+
+oper2: |EQUALS {GLOBAL_WHERE.oper2 = 1; }
+      | BIGGER {GLOBAL_WHERE.oper2 = 2;}
+      | LESS {GLOBAL_WHERE.oper2 = 3;}
+      | NEQUALS {GLOBAL_WHERE.oper2 = 4;}
+      | BEQUALS {GLOBAL_WHERE.oper2 = 5;}
+      | LEQUALS {GLOBAL_WHERE.oper2 = 6;};
+
+andOr: /*vazio*/ {GLOBAL_WHERE.andOr = 0;}
+	|AND {GLOBAL_WHERE.andOr = 1;}
+	|OR {GLOBAL_WHERE.andOr = 2;};
+
 
 /* END */
 %%

@@ -10,6 +10,10 @@
  */
 rc_insert GLOBAL_DATA;
 
+/* ESTRUTURA AUXILIAR DO WHERE */
+
+rc_where GLOBAL_WHERE;
+
 /* Estrutura auxiliar do reconhecedor.
  */
 rc_parser GLOBAL_PARSER;
@@ -56,6 +60,141 @@ void setColumnInsert(char **nome) {
     GLOBAL_DATA.columnName[GLOBAL_PARSER.col_count][strlen(*nome)] = '\0';
 
     GLOBAL_PARSER.col_count++;
+}
+
+void setColumnWhere(char *nome, char type) {
+
+			
+    GLOBAL_WHERE.columnWhere = malloc(sizeof(char)*(strlen(nome)+1));
+
+    strcpylower(GLOBAL_WHERE.columnWhere, nome);
+			
+
+}
+
+void setValueWhere(char *nome, char type) {
+	
+
+    int i;
+
+    // Adiciona o valor no vetor de strings
+    nome -= sizeof(char);
+    if(*nome != '-'){
+		if(*(nome-1) == '-' && *nome == ' ')
+			*nome = '-'; 
+		else
+			nome += sizeof(char);
+	}
+			
+    GLOBAL_WHERE.valueWhere = malloc(sizeof(char)*(strlen(nome)+1));
+			
+    
+			if (type == 'I' || type == 'D') {
+		
+				strcpy(GLOBAL_WHERE.valueWhere, nome);
+				GLOBAL_WHERE.valueWhere[strlen(nome)] = '\0';
+				
+				nome -= sizeof(char);
+				nome =nome-1;
+				char numeros[] = "!@#$%&*+=~^:/?{]}[";
+				char *pos_atual = strpbrk(nome, numeros);
+				if(pos_atual != NULL){
+					return;
+		 
+				}
+			}
+				
+				
+	
+        if (type == 'S') {
+        for (i = 1; i < strlen(nome)-1; i++) {
+            GLOBAL_WHERE.valueWhere[i-1] = nome[i];
+        }
+        GLOBAL_WHERE.valueWhere[strlen(nome)-2] = '\0';
+    }
+}
+
+void setColumnWhere2(char *nome, char type) {
+
+    int i;
+
+    // Adiciona o valor no vetor de strings
+    nome -= sizeof(char);
+    if(*nome != '-'){
+		if(*(nome-1) == '-' && *nome == ' ')
+			*nome = '-'; 
+		else
+			nome += sizeof(char);
+	}
+			
+    GLOBAL_WHERE.columnWhere2 = malloc(sizeof(char)*(strlen(nome)+1));
+			
+    
+			if (type == 'I' || type == 'D') {
+		
+				strcpy(GLOBAL_WHERE.columnWhere2, nome);
+				GLOBAL_WHERE.columnWhere2[strlen(nome)] = '\0';
+				
+				nome -= sizeof(char);
+				nome =nome-1;
+				char numeros[] = "!@#$%&*+=~^:/?{]}[";
+				char *pos_atual = strpbrk(nome, numeros);
+				if(pos_atual != NULL){
+					return;
+		 
+				}
+			}
+				
+				
+	
+        if (type == 'S') {
+        for (i = 1; i < strlen(nome)-1; i++) {
+            GLOBAL_WHERE.columnWhere2[i-1] = nome[i];
+        }
+        GLOBAL_WHERE.columnWhere2[strlen(nome)-2] = '\0';
+    }
+
+}
+
+void setValueWhere2(char *nome, char type) {
+
+    int i;
+
+    // Adiciona o valor no vetor de strings
+    nome -= sizeof(char);
+    if(*nome != '-'){
+		if(*(nome-1) == '-' && *nome == ' ')
+			*nome = '-'; 
+		else
+			nome += sizeof(char);
+	}
+			
+    GLOBAL_WHERE.valueWhere2 = malloc(sizeof(char)*(strlen(nome)+1));
+			
+    
+			if (type == 'I' || type == 'D') {
+		
+				strcpy(GLOBAL_WHERE.valueWhere2, nome);
+				GLOBAL_WHERE.valueWhere2[strlen(nome)] = '\0';
+				
+				nome -= sizeof(char);
+				nome =nome-1;
+				char numeros[] = "!@#$%&*+=~^:/?{]}[";
+				char *pos_atual = strpbrk(nome, numeros);
+				if(pos_atual != NULL){
+					return;
+		 
+				}
+			}
+				
+				
+	
+        if (type == 'S') {
+        for (i = 1; i < strlen(nome)-1; i++) {
+            GLOBAL_WHERE.valueWhere2[i-1] = nome[i];
+        }
+        GLOBAL_WHERE.valueWhere2[strlen(nome)-2] = '\0';
+    }
 }
 
 void  setValueInsert(char *nome, char type) {
@@ -245,7 +384,31 @@ int interface() {
                                 printf("WARNING: Nothing to be inserted. Command ignored.\n");
                             break;
                         case OP_SELECT_ALL:
-                            imprime(GLOBAL_DATA.objName);
+
+			
+
+			    if (GLOBAL_DATA.imprimeTudo == 1 && GLOBAL_WHERE.where == 1) {
+
+				
+				 whereSemProj(&GLOBAL_DATA, &GLOBAL_WHERE, GLOBAL_DATA.objName);
+				 
+
+			    }
+			    else if (GLOBAL_DATA.imprimeTudo == 1 && GLOBAL_WHERE.where == 0) {
+
+				
+				 imprimeAll(GLOBAL_DATA.objName);
+				 				
+			
+			    }
+			    else {
+
+				 
+			    	 selecionar(&GLOBAL_DATA, GLOBAL_PARSER.col_count);
+				
+
+			    }
+                           
                             break;
                         case OP_CREATE_TABLE:
                             createTable(&GLOBAL_DATA);
@@ -258,7 +421,7 @@ int interface() {
                             break;
                         case OP_DROP_DATABASE:
                             dropDatabase(GLOBAL_DATA.objName);
-                            break;
+		 	    break;
                         default: break;
                     }
 
