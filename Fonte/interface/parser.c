@@ -372,6 +372,15 @@ int interface() {
 				 				
 			
 			    }
+			    else if (GLOBAL_DATA.imprimeTudo == 0 && GLOBAL_WHERE.where == 1) {
+
+				
+				 whereComProj(&GLOBAL_DATA, &GLOBAL_WHERE, GLOBAL_DATA.objName, GLOBAL_PARSER.col_count);
+				 GLOBAL_DATA.imprimeTudo = 0;
+				 GLOBAL_WHERE.where = 0;
+				 				
+			
+			    }
 			    else {
 
 				 

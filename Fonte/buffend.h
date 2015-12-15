@@ -559,5 +559,9 @@ void imprimeAll(char nomeTabela[]);
 
 void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]);
 
+/* Imprime tudo que estiver de acordo com a clausula where (com projeção)*/
+
+void whereComProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[], int cols);
+
 
 
