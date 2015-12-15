@@ -11,7 +11,7 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 
 	
 
-    int j,erro, x, p, cont=0, checker = 0;
+    int j,erro, x, p, cont=0, checker = 0, tester = 0;
     struct fs_objects objeto;
 
     if(!verificaNomeTabela(nomeTabela)){
@@ -45,8 +45,6 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
     int ntuples = --x;
 	p = 0;
 	while(x){
-		
-		printf ("\n\n%d\n\n", x);
 
 	    column *pagina = getPage(bufferpoll, esquema, objeto, p);
 	    if(pagina == ERRO_PARAMETRO){
@@ -75,16 +73,21 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 	    }
 	    cont++;
 
-	    checker = 0;
+	    tester = 0;
+            checker = 0;
 
 	    for(j=0; j < objeto.qtdCampos*bufferpoll[p].nrec; j++){
 
 
-		if (strcmp (pagina[j].nomeCampo, r_where->columnWhere) == 0) {
-			
-		
-			if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) == 0)
+
+		// CHECAGEM
+		if (strcmp (pagina[j].nomeCampo, r_where->columnWhere) == 0 && checker == 0) {
+
+			if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) == 0) {
+
 		    		checker++;
+				j -= tester;
+			}
 
 			else if(pagina[j].tipoCampo == 'I'){
 
@@ -93,11 +96,14 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 				if (*n == (int)*r_where->valueWhere) {
 
 		    			checker++;
+					j -= tester;
+				
 				}
 
 			} else if(pagina[j].tipoCampo == 'C'){
 
 		    		checker++;
+				j -= tester;
 
 			} else if(pagina[j].tipoCampo == 'D'){
 
@@ -106,48 +112,59 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 				if (*n == (double)*r_where->valueWhere) {
 
 	    	        		checker++;
+					j -= tester;
 
 				}
 
 			}
-	
 		}
+
+		//////////////////////////
+
+		if(pagina[j].tipoCampo == 'S' && checker != 0 && tester != 0)
+	    		printf(" %-20s ", pagina[j].valorCampo);
+
+		else if(pagina[j].tipoCampo == 'I' && checker != 0 && tester != 0){
+
+	    		int *n = (int *)&pagina[j].valorCampo[0];
+
+	    		printf(" %-10d ", *n);
+
+		} else if(pagina[j].tipoCampo == 'C' && checker != 0 && tester != 0){
+
+	    		printf(" %-10c ", pagina[j].valorCampo[0]);
+
+		} else if(pagina[j].tipoCampo == 'D' && checker != 0 && tester != 0){
+
+	    		double *n = (double *)&pagina[j].valorCampo[0];
+
+    	        	printf(" %-10f ", *n);
+
+		}
+
+		if (j>=1 && ((j+1)%objeto.qtdCampos)==0 && checker == 0) {
+			
+			tester = -1;
+
+		}
+		
+
+		if(j>=1 && ((j+1)%objeto.qtdCampos)==0 && checker != 0 && tester != 0) {
+		    	printf("\n");
+			tester = 0;
+			checker = 0;
+		}
+		else  {
+			if (checker != 0 && tester != 0) {
+				printf("|");
+			}
+		}
+
+		tester++;
 
     	    }
 
-	    if (checker != 0) {
-
-		    for(j=0; j < objeto.qtdCampos*bufferpoll[p].nrec; j++){
-
-			if(pagina[j].tipoCampo == 'S')
-		    		printf(" %-20s ", pagina[j].valorCampo);
-
-			else if(pagina[j].tipoCampo == 'I'){
-
-		    		int *n = (int *)&pagina[j].valorCampo[0];
-
-		    		printf(" %-10d ", *n);
-
-			} else if(pagina[j].tipoCampo == 'C'){
-
-		    		printf(" %-10c ", pagina[j].valorCampo[0]);
-
-			} else if(pagina[j].tipoCampo == 'D'){
-
-		    		double *n = (double *)&pagina[j].valorCampo[0];
-
-	    	        	printf(" %-10f ", *n);
-
-			}
-			if(j>=1 && ((j+1)%objeto.qtdCampos)==0)
-			    	printf("\n");
-
-			else
-				printf("|");
-
-	    	    }
-
-	    }
+	    
 
     	    x-=bufferpoll[p++].nrec;
 

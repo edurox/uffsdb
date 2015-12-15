@@ -391,6 +391,9 @@ int interface() {
 
 				
 				 whereSemProj(&GLOBAL_DATA, &GLOBAL_WHERE, GLOBAL_DATA.objName);
+
+				 GLOBAL_WHERE.where = 0;
+				 GLOBAL_DATA.imprimeTudo = 0;
 				 
 
 			    }
@@ -398,6 +401,7 @@ int interface() {
 
 				
 				 imprimeAll(GLOBAL_DATA.objName);
+				 GLOBAL_DATA.imprimeTudo = 0;
 				 				
 			
 			    }
