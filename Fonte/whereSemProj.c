@@ -1,11 +1,7 @@
 #include "buffend.h"
 
-/* Função que faz a PROJEÇÃO*/
+/* Função que Imprime o resultado do where quando não tem projeção*/
 
-
-
-// Se foram especificadas colunas no *s_insert, verifica se elas existem no esquema.
-//int allColumnsExistsWhereSemProj(rc_where *r_where, table *tabela);
 
 void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 
@@ -82,59 +78,328 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 
 		// CHECAGEM
 		if (strcmp (pagina[j].nomeCampo, r_where->columnWhere) == 0 && checker == 0) {
+			// Operação =
+			if (r_where->oper == 1) {
 
-			if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) == 0) {
+				if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) == 0) {
 
-		    		checker++;
-				j -= tester;
+			    		checker++;
+					j -= tester;
+				}
+
+				else if(pagina[j].tipoCampo == 'I'){
+
+			    		//pagina[j].valorCampo[0];
+					
+					char num[31];
+
+					int *n = (int *)&pagina[j].valorCampo[0];
+
+
+					sprintf (num, "%d", *n); 
+
+
+					if (strcmp (num, r_where->valueWhere) == 0) {
+
+			    			checker++;
+						j -= tester;
+				
+					}
+
+				} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) == 0){
+
+			    		checker++;
+					j -= tester;
+
+				} else if(pagina[j].tipoCampo == 'D'){
+
+					char num[31];
+
+			    		double *n = (double *)&pagina[j].valorCampo[0];
+
+					sprintf (num, "%lf", *n);
+
+					if (strcmp (num, r_where->valueWhere) == 0) {
+
+		    	        		checker++;
+						j -= tester;
+
+					}
+
+				}
 			}
 
-			else if(pagina[j].tipoCampo == 'I'){
+			// Operação !=
+			if (r_where->oper == 4) {
 
-		    		int *n = (int *)&pagina[j].valorCampo[0];
+				if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) != 0) {
 
-				if (*n == (int)*r_where->valueWhere) {
-
-		    			checker++;
+			    		checker++;
 					j -= tester;
+				}
+
+				else if(pagina[j].tipoCampo == 'I'){
+
+			    		//pagina[j].valorCampo[0];
+					
+					char num[31];
+
+					int *n = (int *)&pagina[j].valorCampo[0];
+
+
+					sprintf (num, "%d", *n); 
+
+
+					if (strcmp (num, r_where->valueWhere) != 0) {
+
+			    			checker++;
+						j -= tester;
 				
-				}
+					}
 
-			} else if(pagina[j].tipoCampo == 'C'){
+				} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) != 0){
 
-		    		checker++;
-				j -= tester;
-
-			} else if(pagina[j].tipoCampo == 'D'){
-
-		    		double *n = (double *)&pagina[j].valorCampo[0];
-
-				if (*n == (double)*r_where->valueWhere) {
-
-	    	        		checker++;
+			    		checker++;
 					j -= tester;
 
+				} else if(pagina[j].tipoCampo == 'D'){
+
+					char num[31];
+
+			    		double *n = (double *)&pagina[j].valorCampo[0];
+
+					sprintf (num, "%lf", *n);
+
+					if (strcmp (num, r_where->valueWhere) != 0) {
+
+		    	        		checker++;
+						j -= tester;
+
+					}
+
+				}
+			}
+
+			// Operação >
+			if (r_where->oper == 2) {
+
+				if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) > 0) {
+
+			    		checker++;
+					j -= tester;
 				}
 
+				else if(pagina[j].tipoCampo == 'I'){
+
+			    		//pagina[j].valorCampo[0];
+					
+					char num[31];
+
+					int *n = (int *)&pagina[j].valorCampo[0];
+
+
+					sprintf (num, "%d", *n); 
+
+
+					if (strcmp (num, r_where->valueWhere) > 0) {
+
+			    			checker++;
+						j -= tester;
+				
+					}
+
+				} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) > 0){
+
+			    		checker++;
+					j -= tester;
+
+				} else if(pagina[j].tipoCampo == 'D'){
+
+					char num[31];
+
+			    		double *n = (double *)&pagina[j].valorCampo[0];
+
+					sprintf (num, "%lf", *n);
+
+					if (strcmp (num, r_where->valueWhere) > 0) {
+
+		    	        		checker++;
+						j -= tester;
+
+					}
+
+				}
+			}
+
+			// Operação <
+			if (r_where->oper == 3) {
+
+				if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) < 0) {
+
+			    		checker++;
+					j -= tester;
+				}
+
+				else if(pagina[j].tipoCampo == 'I'){
+
+			    		//pagina[j].valorCampo[0];
+					
+					char num[31];
+
+					int *n = (int *)&pagina[j].valorCampo[0];
+
+
+					sprintf (num, "%d", *n); 
+
+
+					if (strcmp (num, r_where->valueWhere) < 0) {
+
+			    			checker++;
+						j -= tester;
+				
+					}
+
+				} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) < 0){
+
+			    		checker++;
+					j -= tester;
+
+				} else if(pagina[j].tipoCampo == 'D'){
+
+					char num[31];
+
+			    		double *n = (double *)&pagina[j].valorCampo[0];
+
+					sprintf (num, "%lf", *n);
+
+					if (strcmp (num, r_where->valueWhere) < 0) {
+
+		    	        		checker++;
+						j -= tester;
+
+					}
+
+				}
+			}
+			// Operação =>
+			if (r_where->oper == 5) {
+
+				if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) >= 0) {
+
+			    		checker++;
+					j -= tester;
+				}
+
+				else if(pagina[j].tipoCampo == 'I'){
+
+			    		//pagina[j].valorCampo[0];
+					
+					char num[31];
+
+					int *n = (int *)&pagina[j].valorCampo[0];
+
+
+					sprintf (num, "%d", *n); 
+
+
+					if (strcmp (num, r_where->valueWhere) >= 0) {
+
+			    			checker++;
+						j -= tester;
+				
+					}
+
+				} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) >= 0){
+
+			    		checker++;
+					j -= tester;
+
+				} else if(pagina[j].tipoCampo == 'D'){
+
+					char num[31];
+
+			    		double *n = (double *)&pagina[j].valorCampo[0];
+
+					sprintf (num, "%lf", *n);
+
+					if (strcmp (num, r_where->valueWhere) >= 0) {
+
+		    	        		checker++;
+						j -= tester;
+
+					}
+
+				}
+			}
+
+			// Operação =<
+			if (r_where->oper == 6) {
+
+				if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) <= 0) {
+
+			    		checker++;
+					j -= tester;
+				}
+
+				else if(pagina[j].tipoCampo == 'I'){
+
+			    		//pagina[j].valorCampo[0];
+					
+					char num[31];
+
+					int *n = (int *)&pagina[j].valorCampo[0];
+
+
+					sprintf (num, "%d", *n); 
+
+
+					if (strcmp (num, r_where->valueWhere) <= 0) {
+
+			    			checker++;
+						j -= tester;
+				
+					}
+
+				} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) <= 0){
+
+			    		checker++;
+					j -= tester;
+
+				} else if(pagina[j].tipoCampo == 'D'){
+
+					char num[31];
+
+			    		double *n = (double *)&pagina[j].valorCampo[0];
+
+					sprintf (num, "%lf", *n);
+
+					if (strcmp (num, r_where->valueWhere) <= 0) {
+
+		    	        		checker++;
+						j -= tester;
+
+					}
+
+				}
 			}
 		}
 
 		//////////////////////////
 
-		if(pagina[j].tipoCampo == 'S' && checker != 0 && tester != 0)
+		if(pagina[j].tipoCampo == 'S' && checker != 0)
 	    		printf(" %-20s ", pagina[j].valorCampo);
 
-		else if(pagina[j].tipoCampo == 'I' && checker != 0 && tester != 0){
+		else if(pagina[j].tipoCampo == 'I' && checker != 0){
 
 	    		int *n = (int *)&pagina[j].valorCampo[0];
 
 	    		printf(" %-10d ", *n);
 
-		} else if(pagina[j].tipoCampo == 'C' && checker != 0 && tester != 0){
+		} else if(pagina[j].tipoCampo == 'C' && checker != 0){
 
 	    		printf(" %-10c ", pagina[j].valorCampo[0]);
 
-		} else if(pagina[j].tipoCampo == 'D' && checker != 0 && tester != 0){
+		} else if(pagina[j].tipoCampo == 'D' && checker != 0){
 
 	    		double *n = (double *)&pagina[j].valorCampo[0];
 
@@ -151,11 +416,11 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 
 		if(j>=1 && ((j+1)%objeto.qtdCampos)==0 && checker != 0 && tester != 0) {
 		    	printf("\n");
-			tester = 0;
+			tester = -1;
 			checker = 0;
 		}
 		else  {
-			if (checker != 0 && tester != 0) {
+			if (checker != 0) {
 				printf("|");
 			}
 		}
@@ -177,65 +442,3 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 }
 
 
-
-// Se foram especificadas colunas no *s_insert, verifica se elas existem no esquema.
-/*int allColumnsExistsWhereSemProj(rc_where *r_where, table *tabela) {
-
-	int count = 0, j = 0, count2 = 0;
-	if (!r_where->columnWhere) return 0;
-	if (r_where->andOr != 0 && !r_where->columnWhere2) return 0;
-
-	table *tbl;
-
-	tbl = tabela;
-
-
-	struct fs_objects objeto;
-
-	objeto = leObjeto(tbl->nome);
-
-	while (j < objeto.qtdCampos) {
-
-
-		if(strcmp (r_where->columnWhere, tbl->esquema->nome) == 0) {	
-			
-			count ++;		
-
-		};
-
-		if (strcmp (r_where->columnWhere2, tbl->esquema->nome) == 0) {	
-			
-			count2 ++;		
-
-		};
-	
-		
-
-		if (tbl->esquema->next != NULL) {
-	
-			tbl->esquema = tbl->esquema->next;
-
-		};
-
-		j++;
-
-	
-	};
-
-	free(tbl);
-
-	if (r_where->andOr != 0 && count != 0 && count2 != 0) {
-
-		return 1;
-
-	}
-	
-	if (r_where->andOr == 0 && count != 0) {
-
-		return 1;
-
-	}
-	
-	return 1;
-					
-}*/
