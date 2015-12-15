@@ -116,43 +116,10 @@ void setValueWhere(char *nome, char type) {
 
 void setColumnWhere2(char *nome, char type) {
 
-    int i;
-
-    // Adiciona o valor no vetor de strings
-    nome -= sizeof(char);
-    if(*nome != '-'){
-		if(*(nome-1) == '-' && *nome == ' ')
-			*nome = '-'; 
-		else
-			nome += sizeof(char);
-	}
 			
     GLOBAL_WHERE.columnWhere2 = malloc(sizeof(char)*(strlen(nome)+1));
-			
-    
-			if (type == 'I' || type == 'D') {
-		
-				strcpy(GLOBAL_WHERE.columnWhere2, nome);
-				GLOBAL_WHERE.columnWhere2[strlen(nome)] = '\0';
-				
-				nome -= sizeof(char);
-				nome =nome-1;
-				char numeros[] = "!@#$%&*+=~^:/?{]}[";
-				char *pos_atual = strpbrk(nome, numeros);
-				if(pos_atual != NULL){
-					return;
-		 
-				}
-			}
-				
-				
-	
-        if (type == 'S') {
-        for (i = 1; i < strlen(nome)-1; i++) {
-            GLOBAL_WHERE.columnWhere2[i-1] = nome[i];
-        }
-        GLOBAL_WHERE.columnWhere2[strlen(nome)-2] = '\0';
-    }
+
+    strcpylower(GLOBAL_WHERE.columnWhere2, nome);
 
 }
 
