@@ -349,3 +349,123 @@ Os comandos SQL e os objetos das relações (i.e. <NomeTabelas>, <NomeCampos> ..
 	ex: 
 		<TABELA> e <tabela> se referem a mesma relação.
 		<INSERT> e <insert> se referem ao mesmo comando SQL.
+
+
+##############LEIA-ME PARTE 5 #############################################################################################################
+
+=> 15 de Dezembro de 2015 <=
+
+Universidade Federal da Fronteira Sul – UFFS
+Curso: Ciência da Computação
+Componente Curricular: Banco de Dados II
+Professor: Dr. Denio Duarte
+Aluno: Eduardo Mendes Senger
+=============================================================================================================================================
+
+Implementa o select com projeção e where.
+
+Para isso foram criadas/alteradas as seguintes funções e estruturas:
+
+- Foi alterada a estrutura rc_insert para receber o parametro "imprimeTudo", que funciona caso seja um select *:
+
+typedef struct rc_insert {
+    char    *objName;           // Nome do objeto (tabela, banco de dados, etc...)
+    char   **columnName;        // Colunas da tabela
+    char   **values;            // Valores da inserção ou tamanho das strings na criação
+    int      N;                 // Número de colunas de valores
+    char    *type;              // Tipo do dado da inserção ou criação de tabela
+    int     *attribute;         // Utilizado na criação (NPK, PK,FK)
+    char   **fkTable;           // Recebe o nome da tabela FK
+    char   **fkColumn;          // Recebe o nome da coluna FK
+    int      imprimeTudo;       // Caso seja select *
+
+}rc_insert;
+
+- Foi criada a estrutura rc_where que serve para tratar os parâmetros do where:
+
+typedef struct rc_where {
+    int     where;		// Verifica se vai ter where
+
+    char    *valueWhere;	// O valor que where recebe, no caso where idade = 50, neste caso valueWhere recebe 50
+    char    *TipoValueWhere;	// O tipo valor que where recebe, no caso where idade = 50, neste caso int
+    char    *columnWhere;	// Coluna que o where vai comparar, no exemplo anterior esse atributo recebe idade
+
+    char    *valueWhere2;	// O valor que where 2 recebe, no caso where idade = 50, neste caso valueWhere recebe 50
+    char    *TipoValueWhere2;	// O tipo valor que where 2 recebe, no caso where idade = 50, neste caso int
+    char    *columnWhere2;	// Coluna que o where 2 vai comparar, no exemplo anterior esse atributo recebe idade
+
+    int     oper;              // OPERAÇÃO do where, pode ser =  1,    >  2,   <  3,    != 4,    => 5,    =< 6
+    int     oper2;              // OPERAÇÃO do where2, pode ser =  1,    >  2,   <  3,    != 4,    => 5,    =< 6
+    int     andOr;              // SE POSSUI AND OU OR do where, se não possui ambos = 0, se possui and = 1, se possui or = 2
+
+
+
+}rc_where;
+
+
+Funções do buffened.h:
+
+Foi alterada a função imprime para ajudar a imprimir o select com seleção
+
+void selecionar(rc_insert *s_insert, int cols); /* Essa função serve para receber as colunas para fazer a projeção do select*/
+
+void imprimeAll(char nomeTabela[]);  /* Imprime tudo (select * from ...) */
+
+void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]); /* Imprime tudo que estiver de acordo com a clausula where (sem projeção)*/
+
+void whereComProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[], int cols); /* Imprime tudo que estiver de acordo com a clausula where (com projeção)*/
+
+
+
+Funções do parser.h:
+
+
+void setColumnWhere(char *nome, char type); /* Define o valor column where da rc_where */
+
+void setValueWhere(char *nome, char type); /* Define o valor Value where da rc_where */
+
+void setColumnWhere2(char *nome, char type); /* Define o valor column where2 da rc_where */
+
+void setValueWhere2(char *nome, char type); /* Define o valor Value where2 da rc_where */
+
+
+Exemplos e funcionalidades:
+
+É possivel fazer seleções das seguintes formas:
+
+select * from medico;  /* Vai retornar tudo que existe na tabela medico */
+
+select nome, idade from medico;   /* Vai retornar apenas os nomes as idades dos médicos OBS: É possivel fazer projeções com qualquer atributo. */
+
+
+select * from medico where idade = 38;  /* Vai retornar todas as informações de médicos com 38 anos  */
+
+select nome, idade from medico where cidade = 'Palmitos';  /* Vai retornar o nome e a idade dos medicos que moram em Palmitos */
+
+
+select * from medico where idade > 31;   /* Vai retornar todos os medicos com mais de 31 anos OBS: as operações possiveis no lugar do > são:
+<, >, =>, =<, !=, =  */
+
+select nome, cidade from medico where idade => 31;   /* Vai retornar o nome e a cidade dos medicos que possuem 31 ou mais anos  */
+
+AND - OR
+
+select * from medico where idade => 30 and cidade = 'Palmitos';     /* Vai retornar todos os medicos maiores de 30 ou mais anos que moram em Palmitos */
+
+select nome, especialidade from medico where crm = 15875123 or crm = 15875138;    /* Vai retornar o nome e a especialidade dos medicos que tiverem os crm listados */
+
+select nome, crm from medico where idade = 30 or especialidade = 'pediatra';   /* Vai retonar o nome e a CRM dos medicos que tiverem 30 anos ou forem pediatras */
+
+select nome, idade from medico where idade < 30 or idade > 38;  /* Vai retornar o nome e a idade dos médicos que tiverem menos de 30 e mais de 38 anos */
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1948,9 +1948,10 @@ void whereComProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[], int
 
 		    }
 			
-		    if (j>=1 && ((j+1)%objeto.qtdCampos)==0 && checker == 0) {
+		    if (j>=1 && ((j+1)%objeto.qtdCampos)==0) {
 			
 				tester = -1;
+				checker = 0;
 
 		    }
 
@@ -2140,6 +2141,16 @@ void whereComProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[], int
 
 				}
 
+				else if (checker != 0 && checker2 != 0) {
+
+					tester = -1;
+					checker = 0;
+					checker2 = 0;
+					
+
+
+				}
+
 		   }
 
 		   
@@ -2151,7 +2162,8 @@ void whereComProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[], int
 
     	    }
 
-	    
+            checker = 0;
+	    checker2 = 0;
 
     	    x-=bufferpoll[p++].nrec;
 
