@@ -1197,10 +1197,635 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 
 				
 			}
-		
-			
+				
 
-			
+		}
+		// CHECAGEM CASO POSSUA OR
+		if (r_where->andOr == 2) {
+			// Check se tem AND ou OR - neste caso OR
+			if (strcmp (pagina[j].nomeCampo, r_where->columnWhere) == 0 && checker == 0) {
+				// Operação =
+				if (r_where->oper == 1) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) == 0) {
+
+				    		checker++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere) == 0) {
+
+				    			checker++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) == 0){
+
+				    		checker++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere) == 0) {
+
+			    	        		checker++;
+							j -= tester;
+
+						}
+
+					}
+				}
+
+				// Operação !=
+				if (r_where->oper == 4) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) != 0) {
+
+				    		checker++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere) != 0) {
+
+				    			checker++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) != 0){
+
+				    		checker++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere) != 0) {
+
+			    	        		checker++;
+							j -= tester;
+
+						}
+
+					}
+				}
+
+				// Operação >
+				if (r_where->oper == 2) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) > 0) {
+
+				    		checker++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere) > 0) {
+
+				    			checker++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) > 0){
+
+				    		checker++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere) > 0) {
+
+			    	        		checker++;
+							j -= tester;
+
+						}
+
+					}
+				}
+
+				// Operação <
+				if (r_where->oper == 3) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) < 0) {
+
+				    		checker++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere) < 0) {
+
+				    			checker++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) < 0){
+
+				    		checker++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere) < 0) {
+
+			    	        		checker++;
+							j -= tester;
+
+						}
+
+					}
+				}
+				// Operação =>
+				if (r_where->oper == 5) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) >= 0) {
+
+				    		checker++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere) >= 0) {
+
+				    			checker++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) >= 0){
+
+				    		checker++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere) >= 0) {
+
+			    	        		checker++;
+							j -= tester;
+
+						}
+
+					}
+				}
+
+				// Operação =<
+				if (r_where->oper == 6) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere) <= 0) {
+
+				    		checker++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere) <= 0) {
+
+				    			checker++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere) <= 0){
+
+				    		checker++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere) <= 0) {
+
+			    	        		checker++;
+							j -= tester;
+
+						}
+
+					}
+				}
+				//printf ("- op1 %d -", checker);
+			}
+			// OR CHECKER 2
+			if (strcmp (pagina[j].nomeCampo, r_where->columnWhere2) == 0 && checker2 == 0) {
+				// Operação =
+				if (r_where->oper2 == 1) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) == 0) {
+
+				    		checker2++;
+						
+						j -= tester;
+						
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere2) == 0) {
+
+				    			checker2++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) == 0){
+
+				    		checker2++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere2) == 0) {
+
+			    	        		checker2++;
+							j -= tester;
+
+						}
+
+					}
+				}
+
+				// Operação !=
+				if (r_where->oper2 == 4) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) != 0) {
+
+				    		checker2++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere2) != 0) {
+
+				    			checker2++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) != 0){
+
+				    		checker2++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere2) != 0) {
+
+			    	        		checker2++;
+							j -= tester;
+
+						}
+
+					}
+				}
+
+				// Operação >
+				if (r_where->oper2 == 2) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) > 0) {
+
+				    		checker2++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere2) > 0) {
+
+				    			checker2++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) > 0){
+
+				    		checker2++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere2) > 0) {
+
+			    	        		checker2++;
+							j -= tester;
+
+						}
+
+					}
+				}
+
+				// Operação <
+				if (r_where->oper2 == 3) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) < 0) {
+
+				    		checker2++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere2) < 0) {
+
+				    			checker2++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) < 0){
+
+				    		checker2++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere2) < 0) {
+
+			    	        		checker2++;
+							j -= tester;
+
+						}
+
+					}
+				}
+				// Operação =>
+				if (r_where->oper2 == 5) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) >= 0) {
+
+				    		checker2++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere2) >= 0) {
+
+				    			checker2++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) >= 0){
+
+				    		checker2++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere2) >= 0) {
+
+			    	        		checker++;
+							j -= tester;
+
+						}
+
+					}
+				}
+
+				// Operação =<
+				if (r_where->oper2 == 6) {
+
+					if(pagina[j].tipoCampo == 'S' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) <= 0) {
+
+				    		checker2++;
+						j -= tester;
+					}
+
+					else if(pagina[j].tipoCampo == 'I'){
+
+				    		//pagina[j].valorCampo[0];
+					
+						char num[31];
+
+						int *n = (int *)&pagina[j].valorCampo[0];
+
+
+						sprintf (num, "%d", *n); 
+
+
+						if (strcmp (num, r_where->valueWhere2) <= 0) {
+
+				    			checker2++;
+							j -= tester;
+				
+						}
+
+					} else if(pagina[j].tipoCampo == 'C' && strcmp (pagina[j].valorCampo, r_where->valueWhere2) <= 0){
+
+				    		checker2++;
+						j -= tester;
+
+					} else if(pagina[j].tipoCampo == 'D'){
+
+						char num[31];
+
+				    		double *n = (double *)&pagina[j].valorCampo[0];
+
+						sprintf (num, "%lf", *n);
+
+						if (strcmp (num, r_where->valueWhere2) <= 0) {
+
+			    	        		checker2++;
+							
+
+							j -= tester;
+
+							
+
+						}
+
+					}
+				}
+
+				
+			}
+				
 
 		}
 
@@ -1305,6 +1930,80 @@ void whereSemProj(rc_insert *s_insert, rc_where *r_where, char nomeTabela[]) {
 			}
 			else  {
 				if (checker != 0 && checker2 != 0) {
+					printf("|");
+				}	
+			}
+		}
+
+		if (r_where->andOr == 2) {
+			if(pagina[j].tipoCampo == 'S' && (checker != 0 || checker2 != 0)) {
+		    		printf(" %-20s ", pagina[j].valorCampo);
+				
+			}
+			else if(pagina[j].tipoCampo == 'I' && (checker != 0 || checker2 != 0)){
+
+		    		int *n = (int *)&pagina[j].valorCampo[0];
+
+		    		printf(" %-10d ", *n);
+				
+
+			} else if(pagina[j].tipoCampo == 'C' && (checker != 0 || checker2 != 0)){
+
+		    		printf(" %-10c ", pagina[j].valorCampo[0]);
+				
+
+			} else if(pagina[j].tipoCampo == 'D' && (checker != 0 || checker2 != 0)){
+
+		    		double *n = (double *)&pagina[j].valorCampo[0];
+
+				
+
+	    	        	printf(" %-10f ", *n);
+
+			}
+
+			if (j>=1 && ((j+1)%objeto.qtdCampos)==0) {
+
+				if (checker == 0 && checker2 == 0) {
+			
+					tester = -1;
+					checker = 0;
+					checker2 = 0;
+					
+
+				}
+				else if (checker != 0 && checker2 == 0) {
+
+					tester = -1;
+					checker = 0;
+					checker2 = 0;
+					printf("\n");
+					holder++;
+
+				}
+				else if (checker == 0 && checker2 != 0) {
+
+					tester = -1;
+					checker = 0;
+					checker2 = 0;
+					holder++;
+
+					printf("\n");
+
+				}
+
+			}
+		
+
+			if(j>=1 && ((j+1)%objeto.qtdCampos)==0 && checker != 0 && tester != 0 && checker2 != 0) {
+			    	printf("\n");
+				holder++;
+				tester = -1;
+				checker = 0;
+				checker2 = 0;
+			}
+			else  {
+				if (checker != 0 || checker2 != 0) {
 					printf("|");
 				}	
 			}
